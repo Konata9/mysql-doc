@@ -1,0 +1,10 @@
+/**
+ * 数据库查询语句
+ */
+
+var option = require('./option')
+
+module.exports = {
+  tableQuery: `SHOW TABLES`,
+  tableStructureQuery: `SELECT COLUMN_NAME AS ${option.COLUMNS.COLUMN_NAME}, COLUMN_TYPE AS ${option.COLUMNS.COLUMN_TYPE}, IS_NULLABLE AS ${option.COLUMNS.IS_NULLABLE}, COLUMN_DEFAULT AS ${option.COLUMNS.COLUMN_DEFAULT}, COLUMN_KEY AS ${option.COLUMNS.COLUMN_KEY}, EXTRA AS ${option.COLUMNS.EXTRA}, COLUMN_COMMENT AS ${option.COLUMNS.COLUMN_COMMENT}, CHARACTER_SET_NAME AS ${option.COLUMNS.CHARACTER_SET_NAME} FROM information_schema. COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?;`
+}
