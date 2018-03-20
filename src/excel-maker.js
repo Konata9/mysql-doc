@@ -5,6 +5,7 @@ function exportExcel(sheets, excelData, filePath, fileName) {
   if (!fileName) {
     var fileName = 'doc'
   }
+
   return new Promise((resolve, reject) => {
     // 设置 workBook
     var workBook = {
@@ -38,8 +39,6 @@ function exportExcel(sheets, excelData, filePath, fileName) {
       var output = Object.assign({}, header, data)
       var outputPos = Object.keys(output)
       var ref = outputPos[0] + ':' + outputPos[outputPos.length - 1]
-
-      console.dir(output)
 
       workBook.Sheets[sheetName] = Object.assign({}, output, { '!ref': ref }
       )

@@ -64,7 +64,17 @@ class MySQLlDoc {
             console.log(`获取表结构时发生错误`)
             throw new Error(err)
           } else {
-            this.tableCollection[table] = result
+            var resultList = []
+            // 当有值为null时，在生成excel时会报错，所以要对null的数据转为'null'字符串
+            result.forEach(item => {
+              for (var key in item) {
+                if (item[key] == null) {
+                  item[key] = 'null'
+                }
+              }
+              resultList.push(Object.assign({}, item))
+            })
+            this.tableCollection[table] = resultList
             callback()
           }
         })
