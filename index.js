@@ -14,6 +14,6 @@ mysqlDoc.openConnection()
   }).then(() => {
     mysqlDoc.closeConnection()
   }).catch(err => {
-    throw new Error(err)
     mysqlDoc.closeConnection()
+    throw new Error(err)
   })

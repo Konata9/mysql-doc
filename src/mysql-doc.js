@@ -64,18 +64,11 @@ class MySQLlDoc {
             console.log(`获取表结构时发生错误`)
             throw new Error(err)
           } else {
-            var resultList = []
-            // 当有值为null时，在生成excel时会报错，所以要对null的数据转为'null'字符串
-            result.forEach(item => {
-              for (var key in item) {
-                if (item[key] == null) {
-                  item[key] = 'null'
-                }
-              }
-              resultList.push(Object.assign({}, item))
+            this.tableCollection[table] = {}
+            this.tableCollection[table]['table'] = this.dataClean(result)
+            this.getIndexStructure(table, () => {
+              callback()
             })
-            this.tableCollection[table] = resultList
-            callback()
           }
         })
       }, (err, result) => {
@@ -89,8 +82,40 @@ class MySQLlDoc {
     })
   }
 
+  getIndexStructure(tableName, callback) {
+    this.connection.query(queryModel.indexQuery, [this.database, tableName], (err, result, fields) => {
+      if (err) {
+        console.log(`获取索引时发生错误`)
+        throw new Error(err)
+      } else {
+        this.tableCollection[tableName]['index'] = this.dataClean(result)
+        if (callback) {
+          callback()
+        }
+      }
+    })
+  }
+
   makeDoc(filePath) {
     return excelExport(this.tableLists, this.tableCollection, filePath, this.database)
+  }
+
+  /**
+   * 清洗数据库中的抽出的数据
+   * @param {} datas Array
+   */
+  dataClean(datas) {
+    var cleanedLists = []
+    datas.forEach(data => {
+      for (var key in data) {
+        if (data[key] == null) {
+          data[key] = 'null'
+        }
+      }
+      cleanedLists.push(Object.assign({}, data))
+    })
+
+    return cleanedLists
   }
 
 }
