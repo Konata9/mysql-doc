@@ -3,6 +3,8 @@
 
 目的在于减少人工制作文档的时间成本，直接从数据库导成文档也保证了文档与代码是同步的（只要每次数据库变动后及时导出）。
 
+当然，由于`xlsx`的局限性。生成出的excel是没有样式的。但相对于制表的成本，添加样式应该会相对少很多（我们还可以利用宏来帮忙）。
+
 ## 相关依赖库
 1. [mysql](https://github.com/mysqljs/mysql) 用于连接MySQL以及执行相关SQL语句
 2. [xlsx](https://github.com/SheetJS/js-xlsx) 用于导出Excel
